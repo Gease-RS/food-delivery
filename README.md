@@ -47,6 +47,12 @@ $ nest g apps
 # users
 ```
 
+```bash
+# installing dependencies
+$ npm i @apollo/gateway @apollo/subgraph @nestjs/apollo @nestjs/graphql graphql class-validator bcrypt @types/bcrypt
+$ npm i @nestjs/config @nestjs/jwt
+```
+
 ## Running the app
 
 ```bash
