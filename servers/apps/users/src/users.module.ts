@@ -4,7 +4,8 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloFederationDriver, ApolloFederationDriverConfig } from '@nestjs/apollo';
 import { ConfigService } from '@nestjs/config'
 import { JwtService} from '@nestjs/jwt';
-import { PrismaService } from './../../../prisma/PrismaService';
+import { PrismaService } from 'prisma/PrismaService';
+import { UsersResolver } from './user.resolver';
 
 @Module({
   imports: [
@@ -16,6 +17,12 @@ import { PrismaService } from './../../../prisma/PrismaService';
     })
   ],
   controllers: [],
-  providers: [UsersService, ConfigService, JwtService, PrismaService],
+  providers: [
+    UsersService, 
+    ConfigService, 
+    JwtService, 
+    PrismaService, 
+    UsersResolver
+  ],
 })
 export class UsersModule {}
