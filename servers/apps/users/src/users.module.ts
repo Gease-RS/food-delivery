@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloFederationDriver, ApolloFederationDriverConfig } from '@nestjs/apollo';
 import { ConfigService } from '@nestjs/config'
 import { JwtService} from '@nestjs/jwt';
+import { PrismaService } from './../../../prisma/PrismaService';
 
 @Module({
   imports: [
@@ -15,7 +15,7 @@ import { JwtService} from '@nestjs/jwt';
       }
     })
   ],
-  controllers: [UsersController],
-  providers: [UsersService, ConfigService, JwtService],
+  controllers: [],
+  providers: [UsersService, ConfigService, JwtService, PrismaService],
 })
 export class UsersModule {}
