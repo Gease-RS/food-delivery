@@ -1,8 +1,9 @@
-import { Global, Module } from '@nestjs/common';
-import { EmailService } from './email.service';
-import { MailerModule } from '@nestjs-modules/mailer';
-import { ConfigService } from '@nestjs/config';
+import { Global, Module } from '@nestjs/common'
+import { EmailService } from './email.service'
+import { MailerModule } from '@nestjs-modules/mailer'
+import { ConfigService } from '@nestjs/config'
 import { EjsAdapter } from "@nestjs-modules/mailer/dist/adapters/ejs.adapter"
+import { join } from 'path';
 
 @Global()
 @Module({
@@ -10,18 +11,18 @@ import { EjsAdapter } from "@nestjs-modules/mailer/dist/adapters/ejs.adapter"
     MailerModule.forRootAsync({
       useFactory: async (config: ConfigService) => ({
         transport: {
-          host: config.get<string>('SMTP_HOST'),
+          host: config.get('SMTP_HOST'),
           secure: true,
           auth: {
-            user: config.get<string>('SMTP_MAIL'),
-            pass: config.get<string>('SMTP_PASSWORD'),
+            user: config.get('SMTP_MAIL'),
+            pass: config.get('SMTP_PASSWORD'),
           },
         },
         defaults: {
           from: 'Becodemy',
         },
         template: {
-          dir: join(__dirname, 'templates'),
+          dir: join(__dirname, '../../../apps/email-templates'),
           adapter: new EjsAdapter(),
           options: {
             strict: false,
@@ -31,6 +32,7 @@ import { EjsAdapter } from "@nestjs-modules/mailer/dist/adapters/ejs.adapter"
       inject: [ConfigService]
     })
   ],
-  providers: [EmailService]
+  providers: [EmailService],
+  exports: [EmailService],
 })
 export class EmailModule {}
