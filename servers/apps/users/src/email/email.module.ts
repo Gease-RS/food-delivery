@@ -1,9 +1,9 @@
-import { Global, Module } from '@nestjs/common'
-import { EmailService } from './email.service'
-import { MailerModule } from '@nestjs-modules/mailer'
-import { ConfigService } from '@nestjs/config'
-import { EjsAdapter } from "@nestjs-modules/mailer/dist/adapters/ejs.adapter"
+import { Global, Module } from '@nestjs/common';
+import { EmailService } from './email.service';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { ConfigService } from '@nestjs/config';
 import { join } from 'path';
+import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
 
 @Global()
 @Module({
@@ -19,18 +19,18 @@ import { join } from 'path';
           },
         },
         defaults: {
-          from: 'Becodemy',
+          from: 'FoodDeliver',
         },
         template: {
-          dir: join(__dirname, '../../../apps/email-templates'),
+          dir: join(__dirname, '../../../../servers/email-templates'),
           adapter: new EjsAdapter(),
           options: {
             strict: false,
           },
-        }
+        },
       }),
-      inject: [ConfigService]
-    })
+      inject: [ConfigService],
+    }),
   ],
   providers: [EmailService],
   exports: [EmailService],
