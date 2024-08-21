@@ -1,10 +1,11 @@
 import { Args, Mutation, Resolver, Query, Context } from '@nestjs/graphql'
 import { UsersService } from './users.service'
-import { RegisterResponse, ActivationResponse, LoginResponse } from './types/user.types'
+import { RegisterResponse, ActivationResponse, LoginResponse, LogoutResponse } from './types/user.types'
 import { ActivationDto, RegisterDto } from './dto/user.dto'
-import { BadRequestException } from '@nestjs/common'
+import { BadRequestException, UseGuards } from '@nestjs/common'
 import { User } from './entities/user.entity'
 import { Response } from 'express'
+import { AuthGuard } from './guards/auth.guard'
 
 @Resolver('User')
 export class UsersResolver {
@@ -22,7 +23,7 @@ export class UsersResolver {
     const { activation_token } = await this.userService.register(
       registerDto,
       context.res,
-    );
+    )
 
     return { activation_token };
   }
@@ -30,17 +31,29 @@ export class UsersResolver {
   @Mutation(() => ActivationResponse)
   async activateUser(
     @Args('activationDto') activationDto: ActivationDto,
-    @Context() context: { res: Response },
+    @Context() context: { res: Response }
   ): Promise<ActivationResponse> {
-    return await this.userService.activateUser(activationDto, context.res);
+    return await this.userService.activateUser(activationDto, context.res)
   }
 
   @Mutation(() => LoginResponse)
   async Login(
     @Args('email') email: string,
     @Args('password') password: string
-  ):Promise<LoginResponse> {
-    return this.userService.Login({ email, password })
+  ): Promise<LoginResponse> {
+    return await this.userService.Login({ email, password })
+  }
+
+  @Query(() => LoginResponse)
+  @UseGuards(AuthGuard)
+  async getLoggedInUser(@Context() context: { req: Request }) {
+    return await this.userService.getLoggedInUser(context.req)
+  }
+
+  @Query(() => LogoutResponse)
+  @UseGuards(AuthGuard)
+  async logOutUser(@Context() context: { req: Request }) {
+    return await this.userService.Logout(context.req);
   }
 
   @Query(() => [User])

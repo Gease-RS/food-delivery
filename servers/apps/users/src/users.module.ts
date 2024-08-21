@@ -6,7 +6,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { JwtService} from '@nestjs/jwt'
 import { UsersResolver } from './user.resolver'
 import { EmailModule } from './email/email.module'
-import { PrismaService } from './../../../prisma/PrismaService'
+import { PrismaService } from './../../../prisma/prisma.service'
 
 @Module({
   imports: [
